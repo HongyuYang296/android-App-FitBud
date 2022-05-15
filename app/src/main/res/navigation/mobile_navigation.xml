@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.assignment3.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_map"
+        android:name="com.example.assignment3.ui.map.MapFragment"
+        android:label="@string/menu_map"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/nav_report"
+        android:name="com.example.assignment3.ui.report.ReportFragment"
+        android:label="@string/menu_report"
+        tools:layout="@layout/fragment_report" />
+
+    <fragment
+        android:id="@+id/nav_generate_report"
+        android:name="com.example.assignment3.ui.report.BarChartFragment"
+        android:label="@string/menu_generate_report"
+        tools:layout="@layout/fragment_barchart"/>
+
+    <fragment
+        android:id="@+id/nav_pieChart"
+        android:name="com.example.assignment3.ui.report.PieChartFragment"
+        android:label="@string/menu_generate_report"
+        tools:layout="@layout/fragment_barchart"/>
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.example.assignment3.ui.share.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share"/>
+
+    <fragment
+        android:id="@+id/nav_record"
+        android:name="com.example.assignment3.ui.record.RecordFragment"
+        android:label="@string/menu_record"
+        tools:layout="@layout/fragment_record"/>
+</navigation>

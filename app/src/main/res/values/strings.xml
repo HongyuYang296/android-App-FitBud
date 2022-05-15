@@ -1,0 +1,73 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">FitBud</string>
+    <string name="open_weather_API_key">0891ee5dc748292618ab5b5fc73361bf</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">FitBud</string>
+    <string name="menu_second_header">Communicate</string>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Log Out</string>
+
+    <string name="background_image">Background Image</string>
+
+    <string name="today_activity">Todays activity</string>
+    <string name="activity_distance">Distance</string>
+    <string name="activity_calories">Calories burned</string>
+    <string name="default_distance">0 M</string>
+    <string name="default_calories">0 Kcal</string>
+    <string name="weather_icon">weather icon</string>
+    <string name="update_card_notes">Tip: Hold on the card to edit it!</string>
+
+    // map fragment
+    <string name="zoom_in">zoom in</string>
+    <string name="zoom_out">zoom out</string>
+    <string name="current_location">back to current location</string>
+    <string name="google_map_API_key">AIzaSyA9hNLiGJ-qLbpKAvW7mwFi7queyx3oApg</string>
+    <string name="nearly_gym">Nearly Gym</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_report">Report</string>
+    <string name="menu_generate_report">Generate Report</string>
+    <string name="menu_record">Record</string>
+    <string name="menu_share">Share</string>
+    <string name="generate_report">Generate Report</string>
+    <string name="generate_pieChart">Generate PieChart</string>
+    <string name="back_button">Back</string>
+
+    <string name="weather_night">Good evening</string>
+    <string name="weather_good">Good day for outdoor activities</string>
+    <string name="weathet_bad">Better to do indoor activities</string>
+
+
+    <string name="add_distance">ADD TODAY\'S DISTANCE</string>
+    <string name="end_date">End Date</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">322674936666004</string>
+    <string name="fb_login_protocol_scheme">fb322674936666004</string>
+    <string name="facebook_client_token">6b0768855d6586c8bf7d6056cf1b3eae</string>
+    <string name="share_to_facebook">Share to Facebook</string>
+    <string name="jan_01_2020">JAN 01 2020</string>
+    <string name="generate_barchart">Generate Barchart</string>
+    <string name="generate_piechart">Generate PieChart</string>
+    <string name="start_date">Start Date</string>
+    <string name="this_page_is_userd_for_manager_role_in_the_future">This page is userd for manager role in the future</string>
+    <string name="_22_05_2022">22/05/2022</string>
+    <string name="enter_distance_metres">Enter Distance (metres)</string>
+    <string name="add">ADD</string>
+    <string name="test">test</string>
+    <string name="please_enter_your_password">Please enter your password</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="welcome">Welcome!</string>
+    <string name="password">Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="signup">Signup</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="signin">SignIn</string>
+    <string name="email_address">Email Address</string>
+    <string name="please_check_your_information">Please check your information</string>
+
+</resources>

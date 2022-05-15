@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home_icon"
+        android:title="@string/menu_home" />
+
+    <item
+        android:id="@+id/nav_map"
+        android:icon="@drawable/ic_map"
+        android:title="@string/nearly_gym" />
+
+    <item
+        android:id="@+id/nav_record"
+        android:icon="@drawable/ic_add"
+        android:title="@string/menu_record" />
+
+</menu>
