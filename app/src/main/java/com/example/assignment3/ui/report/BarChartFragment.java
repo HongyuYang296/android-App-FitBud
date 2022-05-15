@@ -71,11 +71,9 @@ public class BarChartFragment extends Fragment {
     private Button shareButton;
     private Button id;
 
-
     /**
      * 截取全屏
      *
-     * @return
      */
     public Bitmap captureScreenWindow() {
         getActivity().getWindow().getDecorView().setDrawingCacheEnabled(true);

@@ -24,6 +24,7 @@ public class UploadWorker extends Worker {
         super(context, params);
     }
 
+    @NonNull
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Result doWork() {

@@ -33,14 +33,22 @@ public class UserViewModel extends AndroidViewModel {
         return uRepository.findByEmail(email);
     }
 
-    public LiveData<List<UserWithMovements>> getMovementByEmail(final String email) { return uRepository.getMovementByEmail(email); }
+    public LiveData<List<UserWithMovements>> getMovementByEmail(final String email) {
+        return uRepository.getMovementByEmail(email);
+    }
 
-    public LiveData<List<Movement>> getMovementById(final int userID) { return uRepository.getMovementByID(userID); }
+    public LiveData<List<Movement>> getMovementById(final int userID) {
+        return uRepository.getMovementByID(userID);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public CompletableFuture<Movement> checkDailyEntry(final int id, final String date) { return uRepository.checkDailyEntry(id, date); }
+    public CompletableFuture<Movement> checkDailyEntry(final int id, final String date) {
+        return uRepository.checkDailyEntry(id, date);
+    }
 
-    public void deleteByRecord(final int uid, final String date, final long distance) { uRepository.deleteByRecord(uid, date, distance); }
+    public void deleteByRecord(final int uid, final String date, final long distance) {
+        uRepository.deleteByRecord(uid, date, distance);
+    }
 
     public void editDistanceByRecord(final int uid, final String date, final long distance, final long newDistance) {
         uRepository.editDistanceByRecord(uid, date, distance, newDistance);
@@ -54,9 +62,13 @@ public class UserViewModel extends AndroidViewModel {
         uRepository.insertMovement(movement);
     }
 
-    public void deleteUser(User user) { uRepository.deleteUser(user); }
+    public void deleteUser(User user) {
+        uRepository.deleteUser(user);
+    }
 
-    public void deleteMovement(Movement movement) { uRepository.deleteMovement(movement); }
+    public void deleteMovement(Movement movement) {
+        uRepository.deleteMovement(movement);
+    }
 
     public void updateUser(User user) {
         uRepository.updateUser(user);

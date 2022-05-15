@@ -36,10 +36,6 @@ import com.example.assignment3.viewmodel.UserViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -53,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PieChartFragment extends Fragment {
     private Button facebookButton;
@@ -67,14 +64,10 @@ public class PieChartFragment extends Fragment {
     private ArrayList<Integer> pieColors;
 
 
-    /**
-     * 截取全屏
-     *
-     * @return
-     */
+    // get screenshots
     public Bitmap captureScreenWindow() {
-        getActivity().getWindow().getDecorView().setDrawingCacheEnabled(true);
-        Bitmap bmp = getActivity().getWindow().getDecorView().getDrawingCache();
+        requireActivity().getWindow().getDecorView().setDrawingCacheEnabled(true);
+        Bitmap bmp = requireActivity().getWindow().getDecorView().getDrawingCache();
         return bmp;
     }
 
@@ -89,45 +82,34 @@ public class PieChartFragment extends Fragment {
         userViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(UserViewModel.class);
 
         // Start and End Date
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("Message",  Context.MODE_PRIVATE);
-        String startReportDateString = sharedPref.getString("startDate",null);
-        String endReportDateString = sharedPref.getString("endDate",null);
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("Message", Context.MODE_PRIVATE);
+        String startReportDateString = sharedPref.getString("startDate", null);
+        String endReportDateString = sharedPref.getString("endDate", null);
         startReportDate = convertStringDate(startReportDateString);
         endReportDate = convertStringDate(endReportDateString);
 
 
         // Pie Chart Color Palette
         pieColors = new ArrayList<>();
-        for (int color : ColorTemplate.MATERIAL_COLORS) { pieColors.add(color); }
-        for (int color : ColorTemplate.VORDIPLOM_COLORS) { pieColors.add(color); }
+        for (int color : ColorTemplate.MATERIAL_COLORS) {
+            pieColors.add(color);
+        }
+        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
+            pieColors.add(color);
+        }
 
 
         facebookButton = (Button) root.findViewById(R.id.facebook_button);
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    //请求权限
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    //ask permission
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-//                    ActivityCompat.requestPermissions(getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
-                    //调用
                     extracted(facebookButton, id);
                 }
-//                facebookButton.setVisibility(View.GONE);
-//                ID.setVisibility(View.GONE);
-//                Bitmap bitmap = captureScreenWindow();
-//                facebookButton.setVisibility(View.VISIBLE);
-//                ID.setVisibility(View.VISIBLE);
-//                Log.d("TAG", "onClick: " + bitmap);
-//                FragmentManager fragmentManager = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                File file = BitmapUtil.compressImage(bitmap, getContext());
-//                Uri uriForFile = FileProvider.getUriForFile(getContext(), "com.example.assignment3.fileprovider", file);
-//                Log.d("TAG", "uriForFile" + uriForFile);
-//                Intent intent = new Intent(getActivity(), FacebookActivity.class).putExtra("bitmap", uriForFile.toString());
-//                startActivity(intent);
-//                fragmentTransaction.commit();
+
             }
         });
 
@@ -135,6 +117,7 @@ public class PieChartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
+                assert fragmentManager != null;
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ReportFragment Report = new ReportFragment();
                 fragmentTransaction.replace(R.id.nav_host_fragment, Report);
@@ -155,13 +138,10 @@ public class PieChartFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d("TAG", "fragmentonRequestPermissionsResult: ");
-        if (grantResults != null && grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            switch (requestCode) {
-                case 1: {
-                    Log.d("TAG", "onRequestPermissionsResult: ");
-                    extracted(facebookButton, id);
-                }
-                break;
+        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == 1) {
+                Log.d("TAG", "onRequestPermissionsResult: ");
+                extracted(facebookButton, id);
             }
         }
     }
@@ -173,9 +153,10 @@ public class PieChartFragment extends Fragment {
         shareButton.setVisibility(View.VISIBLE);
         ID.setVisibility(View.VISIBLE);
         FragmentManager fragmentManager = getFragmentManager();
+        assert fragmentManager != null;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         File file = BitmapUtil.compressImage(bitmap, getContext());
-        Uri uriForFile = FileProvider.getUriForFile(getContext(), "com.example.assignment3.fileprovider", file);
+        Uri uriForFile = FileProvider.getUriForFile(requireContext(), "com.example.assignment3.fileprovider", file);
         Log.d("TAG", "uriForFile" + uriForFile);
         Intent intent = new Intent(getActivity(), FacebookActivity.class).putExtra("bitmap", uriForFile.toString());
         startActivity(intent);
@@ -203,26 +184,28 @@ public class PieChartFragment extends Fragment {
     private void loadPieChartData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
 
-        Bundle bundle = getActivity().getIntent().getExtras();
+        Bundle bundle = Objects.requireNonNull(getActivity()).getIntent().getExtras();
         User user = bundle.getParcelable("loginUser");
 
         userViewModel.getMovementByEmail(user.getEmail()).observe(getViewLifecycleOwner(), new Observer<List<UserWithMovements>>() {
             @Override
             public void onChanged(List<UserWithMovements> userWithMovements) {
                 long totalDistance = 0;
-                for (UserWithMovements temp : userWithMovements){
-                    for(Movement temp2: temp.movements){
+                for (UserWithMovements temp : userWithMovements) {
+                    for (Movement temp2 : temp.movements) {
 
                         Date movementDate = convertStringDate(temp2.getTime());
-                        if(!movementDate.before(startReportDate) && !movementDate.after(endReportDate)){
+                        assert movementDate != null;
+                        if (!movementDate.before(startReportDate) && !movementDate.after(endReportDate)) {
                             totalDistance += temp2.getMovement();
                         }
                     }
-                    for(Movement temp2: temp.movements){
+                    for (Movement temp2 : temp.movements) {
 
                         Date movementDate = convertStringDate(temp2.getTime());
-                        if(!movementDate.before(startReportDate) && !movementDate.after(endReportDate)){
-                            entries.add(new PieEntry(((float) ((float)temp2.getMovement()/(float)totalDistance)),temp2.getTime()));
+                        assert movementDate != null;
+                        if (!movementDate.before(startReportDate) && !movementDate.after(endReportDate)) {
+                            entries.add(new PieEntry(((float) ((float) temp2.getMovement() / (float) totalDistance)), temp2.getTime()));
                         }
                     }
                 }
@@ -237,10 +220,9 @@ public class PieChartFragment extends Fragment {
                 data.setValueTextColor(Color.BLACK);
 
                 pieChart.setData(data);
-                pieChart.setCenterText("Total Travel:" + "\n" + ((float)totalDistance/1000) + "km");
+                pieChart.setCenterText("Total Travel:" + "\n" + ((float) totalDistance / 1000) + "km");
                 pieChart.invalidate();
             }
-
         });
 
 
@@ -266,7 +248,7 @@ public class PieChartFragment extends Fragment {
         pieChart.invalidate();
     }
 
-    private Date convertStringDate(String stringDate){
+    private Date convertStringDate(String stringDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         try {
             Date date = sdf.parse(stringDate);

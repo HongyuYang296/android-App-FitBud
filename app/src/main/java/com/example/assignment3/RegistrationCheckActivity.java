@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 //Version 1.0.3: data entry --- Lichen
 public class RegistrationCheckActivity extends AppCompatActivity {
-    private RegistrationCheckBinding binding;
     private FirebaseAuth auth;
     //DatabaseReference myRef;
     private UserViewModel userViewModel;
@@ -23,7 +22,7 @@ public class RegistrationCheckActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = RegistrationCheckBinding.inflate(getLayoutInflater());
+        com.example.assignment3.databinding.RegistrationCheckBinding binding = RegistrationCheckBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 

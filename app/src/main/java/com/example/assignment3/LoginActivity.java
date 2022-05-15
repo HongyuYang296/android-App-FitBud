@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // Workload
             userViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
-                ArrayList<String> userList = new ArrayList<String>();
+                final ArrayList<String> userList = new ArrayList<>();
 
                 @Override
                 public void onChanged(List<User> users) {

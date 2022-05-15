@@ -1,13 +1,13 @@
 package com.example.assignment3.ui.record;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +32,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class RecordFragment extends Fragment {
@@ -48,17 +48,16 @@ public class RecordFragment extends Fragment {
     User user;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         // User
-        Bundle bundle = getActivity().getIntent().getExtras();
+        Bundle bundle = requireActivity().getIntent().getExtras();
         user = bundle.getParcelable("loginUser");
 
         binding = FragmentRecordBinding.inflate(inflater, container, false);
         //View root = binding.getRoot();
-        root = LayoutInflater.from(getContext()).inflate(R.layout.fragment_record,container,false);
+        root = LayoutInflater.from(getContext()).inflate(R.layout.fragment_record, container, false);
 
         //
-        userViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(UserViewModel.class);
+        userViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(UserViewModel.class);
 
         // Recycler View
         setMovementInfo();
@@ -70,7 +69,7 @@ public class RecordFragment extends Fragment {
         addRecordButtonDialog = root.findViewById(R.id.addRecordButton);
         addRecordButtonDialog.setOnClickListener(view -> {
 
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
 
             //If statement for card display
@@ -94,7 +93,6 @@ public class RecordFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
-                    return;
                 }
             });
 
@@ -106,37 +104,27 @@ public class RecordFragment extends Fragment {
                 long distanceNum = Long.parseLong(distance);
 
                 // Database
-                Movement movement = new Movement(user.getUid(),todayDate,distanceNum);
+                Movement movement = new Movement(user.getUid(), todayDate, distanceNum);
                 userViewModel.insertMovement(movement);
 
                 // Recycler
-                if (recordList.size() == 0){
+                if (recordList.size() == 0) {
                     recordList.add(new Movement(user.getUid(), todayDate, distanceNum));
                     adapter.notifyItemInserted(0);
+                } else {
+                    recordList.add(recordList.size() - 1, new Movement(user.getUid(), todayDate, distanceNum));
+                    adapter.notifyItemInserted(recordList.size() - 1);
                 }
-                else{
-                    recordList.add(recordList.size()-1, new Movement(user.getUid(), todayDate, distanceNum));
-                    adapter.notifyItemInserted(recordList.size()-1);
-                }
-
-
                 recyclerView.scrollToPosition(0);
-
                 dialog.dismiss();
-
             });
             dialog.show();
         });
-
-        //final TextView textView = binding.textRecord;
-        //recordViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         return root;
-
     }
 
     private void setAdapter() {
-        adapter = new MovementAdapter(recordList, userViewModel,user);
+        adapter = new MovementAdapter(recordList, userViewModel, user);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -145,20 +133,18 @@ public class RecordFragment extends Fragment {
 
     private void setMovementInfo() {
         recordList = new ArrayList<Movement>();
-
-        userViewModel.getMovementByEmail(user.getEmail()).observe(getActivity(), userWithMovements -> {
+        userViewModel.getMovementByEmail(user.getEmail()).observe(requireActivity(), userWithMovements -> {
             recordList = new ArrayList<Movement>();
-            for (UserWithMovements temp : userWithMovements){
-                for (Movement temp2 : temp.movements){
-                    Movement test1 = new Movement(temp2.getUserId(),temp2.getTime(),temp2.getMovement());
+            for (UserWithMovements temp : userWithMovements) {
+                for (Movement temp2 : temp.movements) {
+                    Movement test1 = new Movement(temp2.getUserId(), temp2.getTime(), temp2.getMovement());
                     recordList.add(test1);
                     //Collections.reverse(recordList);
                 }
             }
             setAdapter();
-    });
+        });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
